@@ -1,0 +1,92 @@
+.App {
+  height: 100vh;
+  overflow: hidden;
+  /* background-color: rgb(7, 5, 83); */
+}
+
+.sidebar {
+  background-color: rgb(7, 5, 83);
+  min-width: 300px;
+  max-width: 300px;
+}
+
+.dropdown-menu {
+  margin-right: 20px;
+}
+
+.info-icon {
+  height: 50px;
+  width: 50px;
+  /* border: 1px solid black; */
+}
+
+.bg-card {
+  background-color: #27293d;
+}
+
+.bg-primary-icon {
+  background-color: #ff7e7d;
+}
+
+.bg-secondary-icon {
+  background-color: #d350d9;
+}
+
+.bg-info-icon {
+  background-color: #00b6e1;
+}
+
+.bg-danger-icon {
+  background-color: #f0322d;
+}
+
+.card-container{
+  max-width: 300px;
+}
+
+.badge-dot i {
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  margin-right: 3px;
+}
+
+.border-dashed{
+  border: 2px solid #0d6efd;
+  border-style: dashed;
+}
+
+.FormGroup {
+	margin: 0 15px 20px;
+	padding: 0;
+	border-style: none;
+	background-color: #7795f8;
+	will-change: opacity, transform;
+	box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
+	border-radius: 4px;
+}
+
+.FormRow {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: center;
+	align-items: center;
+	margin-left: 15px;
+	border-top: 1px solid #819efc;
+}
+
+.cart-badge{
+  background-color: #f0322d;
+    top: -20px;
+    right: 10px;
+}
+
+.cart-img{
+  height: 80px;
+  width: 80px;
+}
+
+.shopping-bag-img{
+  height: 200px;
+  width: 150px;
+}
