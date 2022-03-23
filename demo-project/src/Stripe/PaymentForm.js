@@ -1,14 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useHistory } from "react-router-dom";
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import axios from 'axios'
 
 const PaymentForm = () => {
+    const history = useHistory();
     const [email, setEmail] = useState("");
     const [amount, setAmount] = useState("");
     const [subscription, setSubscription] = useState("onetime");
     const [success, setSuccess] = useState(false)
+    const cartData = useSelector((state) => state.cart)
     const stripe = useStripe()
     const elements = useElements()
+
+    console.log("cartdata", cartData)
+
+    useEffect(() => {
+        let price = 0
+        cartData.forEach(item => {
+            price += item.qty * item.price
+        });
+
+        setAmount(price)
+    }, [cartData, amount, setAmount])
 
     const handleSubmit = async (e) => {
         try {
@@ -35,7 +50,11 @@ const PaymentForm = () => {
                 if (paymentIntent.status === "succeeded")
                     setSuccess(true)
                     return alert(`Payment successful, payment ID - ${res.data.id}`);
-            } else {
+            } 
+            // if(res){
+            //     alert("waiting for payment")
+            // }
+            else {
                 // Simple HTTP Payment was successful
                 alert(`Payment successful, payment ID - ${res.data.id}`);
             }
@@ -58,13 +77,13 @@ const PaymentForm = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="E-mail Address"
                         />
-                        <input
+                        {/* <input
                             type="number"
                             value={amount}
                             className="my-2 w-50 p-2"
                             onChange={(e) => setAmount(e.target.value)}
                             placeholder="Amount"
-                        />
+                        /> */}
                         <div className="my-2 w-50">
                             <input
                                 type="radio"
@@ -93,7 +112,7 @@ const PaymentForm = () => {
                 :
                 <div className="my-4 text-center">
                     <h2 className='text-success my-3'>Payment Successful..!</h2>
-                    <h2>You just bought an amazing product</h2>
+                    <h2>You just bought one month subscription</h2>
                 </div>
 
             }

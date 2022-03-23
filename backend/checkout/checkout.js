@@ -5,7 +5,7 @@ const createCheckoutSession = async (req, res) => {
     try {
         if (!email || !amount || !paymentMethod || !subscription)
             return res.status(400).json({ status: 400, message: "All fields are required!" });
-            amount = parseInt(amount);
+        amount = parseInt(amount);
 
         if (subscription === "onetime") {
             // One time payment code here
@@ -15,14 +15,14 @@ const createCheckoutSession = async (req, res) => {
                 receipt_email: email,
                 description: "Payment for donation",
                 payment_method: paymentMethod,
-                confirm: true
+                confirm: true,
             });
             if (paymentIntent.status === "succeeded") {
                 // Payment successful!
                 return res.json({
                     status: 200,
                     message: "Payment Successful!",
-                    id: paymentIntent.id
+                    id: paymentIntent.id,
                 });
             }
             if (paymentIntent.status === "requires_action") {
@@ -31,7 +31,7 @@ const createCheckoutSession = async (req, res) => {
                     message: "3D secure required",
                     actionRequired: true,
                     id: paymentIntent.id,
-                    clientSecret: paymentIntent.client_secret
+                    clientSecret: paymentIntent.client_secret,
                 });
             }
             return res.status(400).json({
@@ -50,7 +50,6 @@ const createCheckoutSession = async (req, res) => {
                     name: "Recurring donation"
                 }
             });
-
             const customer = await stripeApi.customers.create({
                 email,
                 description: "Donation customer",
@@ -59,13 +58,11 @@ const createCheckoutSession = async (req, res) => {
                     default_payment_method: paymentMethod
                 }
             });
-
             const subscribe = await stripeApi.subscriptions.create({
                 customer: customer.id,
                 items: [{ price: price.id }],
                 expand: ["latest_invoice.payment_intent"]
             });
-
             if (
                 subscribe.latest_invoice.payment_intent.status === "requires_action"
             ) {
@@ -76,6 +73,7 @@ const createCheckoutSession = async (req, res) => {
                     actionRequired: true,
                     clientSecret: subscribe.latest_invoice.payment_intent.client_secret,
                     id: subscribe.latest_invoice.payment_intent.id,
+                    invoices: subscribe
                 });
             }
             if (subscribe.latest_invoice.payment_intent.status === "succeeded") {
